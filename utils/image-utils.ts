@@ -23,7 +23,7 @@ export async function getImages(
 
   if (photos.type === "success") {
     const photosArr = photos.response.results.map((photos, idx) => ({
-      src: photos.urls.full,
+      src: photos.urls.regular,
       thumb: photos.urls.thumb,
       width: photos.width,
       height: photos.height,
