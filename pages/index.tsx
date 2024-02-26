@@ -13,6 +13,7 @@ import { GetStaticProps } from "next";
 import { createApi } from "unsplash-js";
 import { Gallery } from "../components/Gallery";
 import { getImages } from "../utils/image-utils";
+import { useMemo } from "react";
 
 const tabs = [
   {
@@ -50,10 +51,17 @@ export const getStaticProps: GetStaticProps<any> = async () => {
       landscape,
       contemporary,
     },
+    revalidate: 10,
   };
 };
 
 export default function Home({ landscape, contemporary }: HomeProps) {
+
+  const allPhotos = useMemo(() => {
+    const all = [...landscape, ...contemporary]
+    return all.sort((a, b) => b.likes - a.likes)
+  }, [landscape, contemporary])
+
   return (
     <div className="h-full overflow-auto">
       <Head>
@@ -111,7 +119,7 @@ export default function Home({ landscape, contemporary }: HomeProps) {
             </Tab.List>
             <Tab.Panels className="h-full max-w-[900px] w-full p-2 sm:p-4 my-6">
               <Tab.Panel className="overflow-auto">
-                <Gallery photos={[...landscape, ...contemporary]} />
+                <Gallery photos={allPhotos} />
               </Tab.Panel>
               <Tab.Panel>
                 <Gallery photos={landscape} />

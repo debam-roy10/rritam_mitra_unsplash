@@ -17,17 +17,22 @@ export async function getImages(
 ): Promise<Photo[]> {
   const mappedPhotos: Photo[] = [];
 
-  const photos = await cli.search.getPhotos({
+  const photos = await cli.photos.getRandom({
+    count: 10,
     query,
   });
 
   if (photos.type === "success") {
-    const photosArr = photos.response.results.map((photos, idx) => ({
-      src: photos.urls.regular,
-      thumb: photos.urls.thumb,
-      width: photos.width,
-      height: photos.height,
-      alt: photos.alt_description ?? `img-${idx}`,
+
+    const responseArr = Array.isArray(photos.response) ? photos.response : [photos.response];
+
+    const photosArr = responseArr.map((photo, idx) => ({
+      src: photo.urls.regular,
+      thumb: photo.urls.thumb,
+      width: photo.width,
+      height: photo.height,
+      alt: photo.alt_description ?? `img-${idx}`,
+      likes: photo.likes,
     }));
 
     const photosArrWithDataUrl: Photo[] = [];
