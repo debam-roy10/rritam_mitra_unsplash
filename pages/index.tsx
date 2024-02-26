@@ -72,7 +72,6 @@ export default function Home({ landscape, contemporary }: HomeProps) {
       <div className="fixed left-0 top-0 w-full h-full z-10 from-dark bg-gradient-to-t"></div>
 
       <header className="fixed top-0 w-full z-30 flex justify-between items-center h-[90px] px-10">
-        {/* <div>hm</div> */}
         <Link href="#">
           <Image
             src={logo}
